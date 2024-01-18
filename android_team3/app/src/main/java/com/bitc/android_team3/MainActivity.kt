@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences.Editor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.edit
 import com.bitc.android_team3.databinding.ActivityMainBinding
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         var name = sharedPref.getString("name", "")
         var email = sharedPref.getString("email", "")
         var phone = sharedPref.getString("phone", "")
+
+        Log.d("api-data", "id: $id, name: $name, email: $email, phone: $phone")
 
 //        로그인 안했을 때
         if(id == null || id == ""){

@@ -6,18 +6,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bitc.android_team3.databinding.ActivityJoinBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class JoinActivity : AppCompatActivity() {
+
+    var idCheckResult: Int? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val dbHelper = DBHelper(this)
-        var database = dbHelper.writableDatabase
+//        val dbHelper = DBHelper(this)
+//        var database = dbHelper.writableDatabase
 
         val id = binding.etId
         val pw = binding.etPw
@@ -27,24 +34,47 @@ class JoinActivity : AppCompatActivity() {
         val phone = binding.etPhone
 
 //        0 : 아이디 중복 확인 전, 1 : 아이디 중복됨, 2 : 아이디 중복 확인 완료 & 아이디 중복 되지 않음
-        var idCheckResult = 0
 
+
+//        비밀번호, 비밀번호 확인이 서로 같은지
         var pwCheckResult = false
 
         binding.btnIdCheck.setOnClickListener {
+
             if(id.text.toString() == "" || id.text.toString() == null){
                 Toast.makeText(this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
             else {
-                idCheckResult = dbHelper.userIdCheck(database, id.text.toString())
+                val userId = id.text.toString()
 
-                if (idCheckResult == 1) {
-                    id.setText("")
-                    Toast.makeText(this, "중복된 아이디입니다.", Toast.LENGTH_SHORT).show()
-                } else {
-                    idCheckResult = 2
-                    Toast.makeText(this, "사용할 수 있는 아이디입니다.", Toast.LENGTH_SHORT).show()
-                }
+                val result = RetrofitBuilder.api.userIdCheck(userId).execute().body()
+
+                Log.d("database-", "result : $result")
+
+//                RetrofitBuilder.api.userIdCheck(userId).enqueue(
+//                    object : Callback<Int> {
+//                        override fun onResponse(call: Call<Int>, response: Response<Int>) {
+//                            if(response.isSuccessful){
+//                                idCheckResult = response.body()
+//
+////                        Log.d("database-idCheck111", "idCheckResult : $idCheckResult")
+//
+//                                if(idCheckResult == 1){
+//                                    id.setText("")
+//                                    Toast.makeText(this@JoinActivity, "중복된 아이디입니다.", Toast.LENGTH_SHORT).show()
+//                                }
+//                                else{
+//                                    Toast.makeText(this@JoinActivity, "사용 가능한 아이디입니다.", Toast.LENGTH_SHORT).show()
+//                                }
+//
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<Int>, t: Throwable) {
+//                            Log.d("database-idCheck", "못불러옴")
+//                        }
+//
+//                    })
             }
         }
 
@@ -135,28 +165,28 @@ class JoinActivity : AppCompatActivity() {
 
             }
             else {
-                if (idCheckResult == 1) {
-                    Toast.makeText(this, "중복된 아이디입니다.", Toast.LENGTH_SHORT).show()
-                }
-                else if (idCheckResult == 0) {
-                    Toast.makeText(this, "아이디 중복체크가 필요합니다.", Toast.LENGTH_SHORT).show()
-                }
-                else if (!pwCheckResult){
-                    Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    val user = UserInfoData(id.text.toString(), pw.text.toString(), name.text.toString(), email.text.toString(), phone.text.toString())
-                    val result =  dbHelper.userJoin(database, user)
+//                if (idCheckResult == 1) {
+//                    Toast.makeText(this, "중복된 아이디입니다.", Toast.LENGTH_SHORT).show()
+//                }
+//                else if (idCheckResult == 0) {
+//                    Toast.makeText(this, "아이디 중복체크가 필요합니다.", Toast.LENGTH_SHORT).show()
+//                }
+//                else if (!pwCheckResult){
+//                    Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+//                }
+//                else {
+//                    val user = UserInfoData(id.text.toString(), pw.text.toString(), name.text.toString(), email.text.toString(), phone.text.toString())
+//                    val result =  dbHelper.userJoin(database, user)
 
-                    if(result){
-                        Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-                    }
-                    else{
-                        Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
-                    }
-                }
+//                    if(result){
+//                        Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()
+//                        val intent = Intent(this, MainActivity::class.java)
+//                        startActivity(intent)
+//                    }
+//                    else{
+//                        Toast.makeText(this, "회원가입 실패", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
             }
         }
 

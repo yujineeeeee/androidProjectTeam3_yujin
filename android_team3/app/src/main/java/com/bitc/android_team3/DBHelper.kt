@@ -67,10 +67,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "android_team3_db",
 
         lateinit var userInfo: UserInfoData
 
-        if(dataSet!!.moveToNext()){
-            userInfo = UserInfoData(id = dataSet.getString(0), name = dataSet.getString(1), email = dataSet.getString(2), phone = dataSet.getString(3), pw = null)
-        }
-
         return userInfo
     }
 }
