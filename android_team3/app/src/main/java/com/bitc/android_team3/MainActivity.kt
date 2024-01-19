@@ -24,31 +24,18 @@ class MainActivity : AppCompatActivity() {
         val editor = sharedPref.edit()
 
         var id = sharedPref.getString("id", "")
-        var name = sharedPref.getString("name", "")
-        var email = sharedPref.getString("email", "")
-        var phone = sharedPref.getString("phone", "")
-
-        Log.d("api-data", "id: $id, name: $name, email: $email, phone: $phone")
 
 //        로그인 안했을 때
         if(id == null || id == ""){
-            binding.tvUserInfo.visibility = View.GONE
             binding.btnLogout.visibility = View.GONE
+//            binding.btnMyPage.visibility = View.GONE
             binding.btnLoginActivity.visibility = View.VISIBLE
         }
 //        로그인 했을 때
         else {
-            var txt = ""
-            txt += "아이디 : $id\n"
-            txt += "이름 : $name\n"
-            txt += "이메일 : $email\n"
-            txt += "전화번호 : $phone\n"
-
-            binding.tvUserInfo.visibility = View.VISIBLE
             binding.btnLogout.visibility = View.VISIBLE
+            binding.btnMyPage.visibility = View.VISIBLE
             binding.btnLoginActivity.visibility = View.GONE
-
-            binding.tvUserInfo.text = txt
         }
 
         binding.btnLoginActivity.setOnClickListener {
@@ -61,6 +48,11 @@ class MainActivity : AppCompatActivity() {
             editor.commit()
 
             val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnMyPage.setOnClickListener {
+            val intent = Intent(this, MyPageActivity::class.java)
             startActivity(intent)
         }
     }

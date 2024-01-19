@@ -2,6 +2,7 @@ package com.bitc.springapp.controller;
 
 import com.bitc.springapp.dto.UserLoginDto;
 import com.bitc.springapp.dto.UserDto;
+import com.bitc.springapp.dto.UserPriceDto;
 import com.bitc.springapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class DataController {
     private UserService userService;
 
     @GetMapping("/userInfo")
-    public UserDto selectUserInfo(HttpServletRequest request) throws Exception{
+    public UserDto userInfo(HttpServletRequest request) throws Exception{
 
         String id = request.getParameter("id");
 
@@ -33,7 +34,6 @@ public class DataController {
     }
 
     @GetMapping("/userIdCheck")
-    @ResponseBody
     public int userIdCheck(HttpServletRequest request) throws Exception {
 
         String id = request.getParameter("id");
@@ -43,4 +43,21 @@ public class DataController {
         return result;
     }
 
+    @PostMapping("/userInsert")
+    @ResponseBody
+    public int userInsert(@RequestBody UserDto user) throws Exception{
+        userService.UserInsert(user);
+
+        return 1;
+    }
+
+
+    @PostMapping("/totalPrice")
+    @ResponseBody
+    public String totalPrice(@RequestBody UserPriceDto userPrice) throws Exception {
+
+        String result = userService.totalPrice(userPrice);
+
+        return result;
+    }
 }

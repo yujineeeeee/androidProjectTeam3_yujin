@@ -6,7 +6,7 @@
 <mapper namespace="com.bitc.springapp.mapper.UserMapper">
 
     <select id="SelectUserInfo" parameterType="String" resultType="com.bitc.springapp.dto.UserDto">
-        SELECT id, pw, name, email, phone
+        SELECT id, pw, name, email, phone, create_date
         FROM user
         WHERE id = #{id}
     </select>
@@ -21,6 +21,18 @@
         SELECT COUNT(*) AS cnt
         FROM user
         WHERE id = #{id}
+    </select>
+
+    <insert id="UserInsert" parameterType="com.bitc.springapp.dto.UserDto">
+        INSERT INTO user
+        VALUES (#{id}, #{pw}, #{name}, #{email}, #{phone}, NOW())
+    </insert>
+    
+    <select id="totalPrice" parameterType="com.bitc.springapp.dto.UserPriceDto" resultType="String">
+        select sum(pd_price * pd_cnt) AS total
+        from basket
+        where DATE_FORMAT(pd_create_date, '%Y%m%d') = DATE_FORMAT(#{pdCreateDate}, '%Y%m%d')
+        and pd_id = #{pdId}
     </select>
 
 </mapper>

@@ -15,10 +15,11 @@ interface API {
     @GET("/userInfo")
     fun userInfo(@Query("id") id: String): Call<UserInfoData>
 
-//    @POST("/userIdCheck")
-//    fun userIdCheck(@Body id: String): Call<String>
     @GET("/userIdCheck")
     fun userIdCheck(@Query("id") id:String): Call<Int>
+
+    @POST("/userInsert")
+    fun userInsert(@Body user: UserInfoData): Call<Int>
 }
 
 object RetrofitBuilder {
