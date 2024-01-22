@@ -1,10 +1,11 @@
 package com.bitc.springapp.service;
 
 import com.bitc.springapp.dto.UserDto;
-import com.bitc.springapp.dto.UserPriceDto;
 import com.bitc.springapp.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,8 +34,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String totalPrice(UserPriceDto userPrice) throws Exception {
-        return userMapper.totalPrice(userPrice);
+    public void UserUpdate(UserDto user) throws Exception {
+        userMapper.UserUpdate(user);
     }
 
 }

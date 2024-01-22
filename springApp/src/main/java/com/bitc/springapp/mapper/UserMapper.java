@@ -1,8 +1,9 @@
 package com.bitc.springapp.mapper;
 
 import com.bitc.springapp.dto.UserDto;
-import com.bitc.springapp.dto.UserPriceDto;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -15,5 +16,6 @@ public interface UserMapper {
 
     void UserInsert(UserDto user) throws Exception;
 
-    String totalPrice(UserPriceDto userPrice) throws Exception;
+    void UserUpdate(UserDto user) throws Exception;
+
 }

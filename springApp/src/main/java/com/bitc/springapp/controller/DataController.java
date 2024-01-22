@@ -2,11 +2,13 @@ package com.bitc.springapp.controller;
 
 import com.bitc.springapp.dto.UserLoginDto;
 import com.bitc.springapp.dto.UserDto;
-import com.bitc.springapp.dto.UserPriceDto;
 import com.bitc.springapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class DataController {
@@ -51,13 +53,12 @@ public class DataController {
         return 1;
     }
 
-
-    @PostMapping("/totalPrice")
+    @PostMapping("/userUpdate")
     @ResponseBody
-    public String totalPrice(@RequestBody UserPriceDto userPrice) throws Exception {
+    public int userUpdate(@RequestBody UserDto user) throws Exception{
+        userService.UserUpdate(user);
 
-        String result = userService.totalPrice(userPrice);
-
-        return result;
+        return 1;
     }
+
 }

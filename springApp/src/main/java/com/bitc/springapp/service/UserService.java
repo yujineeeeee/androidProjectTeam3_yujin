@@ -1,7 +1,8 @@
 package com.bitc.springapp.service;
 
 import com.bitc.springapp.dto.UserDto;
-import com.bitc.springapp.dto.UserPriceDto;
+
+import java.util.List;
 
 public interface UserService {
     UserDto SelectUserInfo(String id) throws Exception;
@@ -12,5 +13,6 @@ public interface UserService {
 
     void UserInsert(UserDto user) throws Exception;
 
-    String totalPrice(UserPriceDto userPrice) throws Exception;
+    void UserUpdate(UserDto user) throws Exception;
+
 }

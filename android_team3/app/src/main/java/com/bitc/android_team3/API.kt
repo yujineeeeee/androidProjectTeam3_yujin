@@ -20,6 +20,9 @@ interface API {
 
     @POST("/userInsert")
     fun userInsert(@Body user: UserInfoData): Call<Int>
+
+    @POST("/userUpdate")
+    fun userUpdate(@Body user: UserInfoData): Call<Int>
 }
 
 object RetrofitBuilder {

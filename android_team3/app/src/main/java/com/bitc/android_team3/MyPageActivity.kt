@@ -61,7 +61,7 @@ class MyPageActivity : AppCompatActivity() {
             }
 
             binding.btnUserUpdate.setOnClickListener {
-
+                UserInfoUpdateDialog().show(supportFragmentManager, "dialog")
             }
 
         }

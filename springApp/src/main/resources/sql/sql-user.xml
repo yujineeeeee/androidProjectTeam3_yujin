@@ -27,12 +27,9 @@
         INSERT INTO user
         VALUES (#{id}, #{pw}, #{name}, #{email}, #{phone}, NOW())
     </insert>
-    
-    <select id="totalPrice" parameterType="com.bitc.springapp.dto.UserPriceDto" resultType="String">
-        select sum(pd_price * pd_cnt) AS total
-        from basket
-        where DATE_FORMAT(pd_create_date, '%Y%m%d') = DATE_FORMAT(#{pdCreateDate}, '%Y%m%d')
-        and pd_id = #{pdId}
-    </select>
 
+    <update id="UserUpdate" parameterType="com.bitc.springapp.dto.UserDto">
+        UPDATE user SET name = #{name}, email = #{email}, phone = #{phone}
+        WHERE id = #{id}
+    </update>
 </mapper>

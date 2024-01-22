@@ -29,26 +29,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+                    <TextView
                         android:layout_width="150dp"
                         android:layout_height="150dp"
-                        app:cardCornerRadius="75dp"
-                        app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/ivProfile"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/user_basic"/>
-                    </androidx.cardview.widget.CardView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="사진 변경"/>
-
+                        android:gravity="center"
+                        android:text="로고사진"/>
                 </LinearLayout>
 
                 <LinearLayout
