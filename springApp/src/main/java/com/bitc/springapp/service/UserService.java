@@ -15,4 +15,5 @@ public interface UserService {
 
     void UserUpdate(UserDto user) throws Exception;
 
+    void UserDelete(String id) throws Exception;
 }

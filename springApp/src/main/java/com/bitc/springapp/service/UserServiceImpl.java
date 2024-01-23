@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
         userMapper.UserUpdate(user);
     }
 
+    @Override
+    public void UserDelete(String id) throws Exception {
+        userMapper.UserDelete(id);
+    }
+
 }
 
 

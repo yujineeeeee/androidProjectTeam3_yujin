@@ -1,24 +1,27 @@
 package com.bitc.android_team3
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType.TYPE_CLASS_TEXT
+import android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.Toast
-import android.widget.Toast.makeText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.bitc.android_team3.databinding.DialogUserInfoUpdateBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class UserInfoUpdateDialog : DialogFragment() {
 
@@ -78,12 +81,64 @@ class UserInfoUpdateDialog : DialogFragment() {
 
             Toast.makeText(context, "회원정보 수정 완료", Toast.LENGTH_SHORT).show()
             dismiss()
-
-
         }
 
         binding.btnUpdateCancel.setOnClickListener {
             dismiss()
+        }
+
+        binding.tvUserDelete.setOnClickListener {
+
+            val alertDialog = AlertDialog.Builder(requireContext())
+            var ediText: EditText = EditText(requireContext())
+
+
+            alertDialog.setTitle("회원탈퇴")
+            alertDialog.setMessage("탈퇴하시려면 \"탈퇴\"를 입력해주세요.")
+            alertDialog.setView(ediText)
+            alertDialog.setPositiveButton("확인", DialogInterface.OnClickListener { dialog, which ->
+                var inputText = ediText.text.toString()
+
+                if(inputText == "탈퇴"){
+
+                    RetrofitBuilder.api.userDelete(id!!).enqueue(
+                        object : Callback<Int>{
+                            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                                if(response.isSuccessful){
+                                    val result = response.body()
+
+                                    if(result == 1){
+                                        Toast.makeText(requireContext(), "탈퇴되었습니다.", Toast.LENGTH_SHORT).show()
+
+//                                        로그인 값 지우기
+                                        editor.clear()
+                                        editor.commit()
+
+//                                        탈퇴 확인 다이얼로그 종료
+                                        dialog.dismiss()
+//                                        회원수정 다이얼로그 종료
+                                        dismiss()
+
+                                        val intent = Intent(requireContext(), MainActivity::class.java)
+                                        startActivity(intent)
+                                    }
+                                }
+                            }
+
+                            override fun onFailure(call: Call<Int>, t: Throwable) {
+                                Log.d("database-deleteUser", "데이터베이스 불러오는 중 오류 발생")
+                            }
+
+                        }
+                    )
+                }
+                else{
+                    Toast.makeText(requireContext(), "다시 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+            alertDialog.show()
+
         }
 
         return binding.root

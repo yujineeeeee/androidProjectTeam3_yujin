@@ -61,4 +61,13 @@ public class DataController {
         return 1;
     }
 
+    @GetMapping("/userDelete")
+    public int userDelete(HttpServletRequest request) throws Exception{
+        String id = request.getParameter("id");
+
+        userService.UserDelete(id);
+
+        return 1;
+    }
+
 }

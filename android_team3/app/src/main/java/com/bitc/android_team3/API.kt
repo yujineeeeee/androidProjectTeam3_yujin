@@ -23,6 +23,9 @@ interface API {
 
     @POST("/userUpdate")
     fun userUpdate(@Body user: UserInfoData): Call<Int>
+
+    @GET("/userDelete")
+    fun userDelete(@Query("id") id:String): Call<Int>
 }
 
 object RetrofitBuilder {

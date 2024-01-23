@@ -28,31 +28,16 @@ class MyPageActivity : AppCompatActivity() {
 
 //        로그인 하지 않았을 때
         if(id == null || id == ""){
-            binding.linearNoUser.visibility = View.VISIBLE
-            binding.linearUser.visibility = View.GONE
-
-//            회원가입
-            binding.btnMyPageJoin.setOnClickListener {
-                val intent = Intent(this, JoinActivity::class.java)
-                startActivity(intent)
-            }
-
-//            로그인
-            binding.btnMyPageLogin.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 //        로그인 했을 때
         else {
-            binding.linearNoUser.visibility = View.GONE
-            binding.linearUser.visibility = View.VISIBLE
-
-            binding.tvMyPageId.text = id
+            binding.tvMyPageId.text = "${name} 님"
             binding.tvMyPageCreateDate.text = "가입일 : $createDate"
 
 //            로그아웃
-            binding.btnMyPageLogout.setOnClickListener {
+            binding.tvLogout.setOnClickListener {
                 editor.clear()
                 editor.commit()
 
@@ -60,12 +45,12 @@ class MyPageActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            binding.btnUserUpdate.setOnClickListener {
-                UserInfoUpdateDialog().show(supportFragmentManager, "dialog")
-            }
-
         }
 
+//        회원정보 수정
+        binding.llUserUpdate.setOnClickListener {
+            UserInfoUpdateDialog().show(supportFragmentManager, "dialog")
+        }
 
     }
 }

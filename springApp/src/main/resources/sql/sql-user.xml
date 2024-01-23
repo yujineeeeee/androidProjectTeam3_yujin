@@ -32,4 +32,8 @@
         UPDATE user SET name = #{name}, email = #{email}, phone = #{phone}
         WHERE id = #{id}
     </update>
+
+    <delete id="UserDelete" parameterType="String">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
 </mapper>
