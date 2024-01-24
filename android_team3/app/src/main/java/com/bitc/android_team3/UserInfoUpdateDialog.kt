@@ -6,8 +6,10 @@ import android.content.Intent
 import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +29,10 @@ class UserInfoUpdateDialog : DialogFragment() {
 
     private lateinit var binding: DialogUserInfoUpdateBinding
 
+    private var nameFlag = true
+    private var emailFlag = false
+    private var phoneFlag = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = DialogUserInfoUpdateBinding.inflate(inflater, container, false)
@@ -43,9 +49,74 @@ class UserInfoUpdateDialog : DialogFragment() {
         var email = sharedPref.getString("email", "")
         var phone = sharedPref.getString("phone", "")
 
+        binding.etUpdateUserId.setText(id)
         binding.etUpdateUserName.setText(name)
         binding.etUpdateUserEmail.setText(email)
         binding.etUpdateUserPhone.setText(phone)
+
+
+        binding.etUpdateUserName.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int
+            ) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                nameFlag = true
+
+                userInfoFlagCheck()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(s != null){
+
+                    if(s.isEmpty()){
+                        binding.idUpdateNameInputLayout.error = "이름을 입력해주세요"
+                        nameFlag = false
+                    }
+                    else {
+                        binding.idUpdateNameInputLayout.error = null
+                        nameFlag = true
+                    }
+                }
+
+                userInfoFlagCheck()
+            }
+
+        })
+
+        binding.etUpdateUserEmail.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                emailFlag = true
+                userInfoFlagCheck()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
+        binding.etUpdateUserPhone.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                phoneFlag = true
+                userInfoFlagCheck()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        })
+
 
         binding.btnUpdateUserInfo.setOnClickListener {
 
@@ -77,7 +148,6 @@ class UserInfoUpdateDialog : DialogFragment() {
                     }
                 }
             )
-
 
             Toast.makeText(context, "회원정보 수정 완료", Toast.LENGTH_SHORT).show()
             dismiss()
@@ -137,8 +207,8 @@ class UserInfoUpdateDialog : DialogFragment() {
                 }
 
             })
-            alertDialog.show()
 
+            alertDialog.show()
         }
 
         return binding.root
@@ -180,6 +250,10 @@ class UserInfoUpdateDialog : DialogFragment() {
 
             window?.setLayout(x, y)
         }
+    }
+
+    fun userInfoFlagCheck(){
+        binding.btnUpdateUserInfo.isEnabled = nameFlag || emailFlag || phoneFlag
     }
 
 }

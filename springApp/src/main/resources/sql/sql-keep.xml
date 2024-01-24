@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitc.springapp.mapper.KeepMapper">
+    <insert id="keepInsert" parameterType="com.bitc.springapp.dto.KeepDto">
+        INSERT INTO keep (kp_cd, kp_name, kp_jeongGa, kp_discount, kp_price, kp_cnt, kp_create_date, kp_id)
+        VALUES (${kpCd}, ${kdName}, ${kdJeongGa}, ${kdDiscount}, ${kdPrice}, ${kdCnt}, NOW(), ${kpId})
+    </insert>
+</mapper>

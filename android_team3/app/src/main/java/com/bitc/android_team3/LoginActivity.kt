@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnJoinActivity.setOnClickListener {
+        binding.tvJoin.setOnClickListener {
             val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }

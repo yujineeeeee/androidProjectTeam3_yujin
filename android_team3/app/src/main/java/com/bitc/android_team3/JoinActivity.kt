@@ -170,16 +170,15 @@ class JoinActivity : AppCompatActivity() {
 
         name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+                flagCheck()
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                flagCheck()
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s != null) {
-
                     if (s.isEmpty()) {
                         binding.nameInputLayout.error = "이름을 입력해주세요."
                         nameFlag = false
@@ -197,7 +196,6 @@ class JoinActivity : AppCompatActivity() {
 
 
         binding.btnJoin.setOnClickListener {
-
             val user = UserInfoData(
                 id = id.text.toString(),
                 pw = pw.text.toString(),
@@ -230,8 +228,6 @@ class JoinActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                        } else {
-                            Toast.makeText(this@JoinActivity, "값 못불러옴.", Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -242,23 +238,6 @@ class JoinActivity : AppCompatActivity() {
                 }
             )
 
-
-//            if ((id.text.toString() == "" || id.text.toString() == null) || (pw.text.toString() == "" || pw.text.toString() == null) ||
-//                (pwCheck.text.toString() == "" || pwCheck.text.toString() == null) || (name.text.toString() == "" || name.text.toString() == null)
-//            ) {
-//                Toast.makeText(this, "필수 정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
-//
-//            } else {
-//                if (idCheckResult == 1) {
-//                    Toast.makeText(this, "중복된 아이디입니다.", Toast.LENGTH_SHORT).show()
-//                } else if (idCheckResult == 0) {
-//                    Toast.makeText(this, "아이디 중복체크가 필요합니다.", Toast.LENGTH_SHORT).show()
-//                } else if (!pwCheckResult) {
-//                    Toast.makeText(this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
-//                } else {
-//
-//                }
-//            }
         }
 
     }
@@ -266,5 +245,4 @@ class JoinActivity : AppCompatActivity() {
     fun flagCheck() {
         binding.btnJoin.isEnabled = idFlag && pwCheckFlag && nameFlag
     }
-
 }

@@ -62,4 +62,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.10.1")
+
+// 이미지 동그랗게 나오게하기
+    // https://mvnrepository.com/artifact/de.hdodenhof/circleimageview
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
 }
