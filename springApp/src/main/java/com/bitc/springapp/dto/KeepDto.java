@@ -6,11 +6,12 @@ import lombok.Data;
 public class KeepDto {
     private int kpIdx;
     private String kpCd;
-    private String kdName;
-    private int kdJeongGa;
-    private int kdDiscount;
-    private int kdPrice;
-    private int kdCnt;
-    private String kdCreateDate;
+    private String kpName;
+    private int kpJeongGa;
+    private int kpDiscount;
+    private int kpPrice;
+    private int kpCnt;
+    private String kpCreateDate;
     private String kpId;
+    private String kpImage;
 }

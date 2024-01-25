@@ -1,18 +1,15 @@
 package com.bitc.android_team3
 
-import android.R
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.bitc.android_team3.databinding.ActivityLoginBinding
-import com.bitc.android_team3.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
                 val userLoginData: UserLoginData = UserLoginData(id = id.text.toString(), pw = pw.text.toString())
 
 //            로그인 성공 확인
-                RetrofitBuilder.api.userLogin(userLoginData).enqueue(object : Callback<Int>{
+                RetrofitBuilder.api.userLogin(userLoginData).enqueue(object : Callback<Int> {
                     override fun onResponse(call: Call<Int>, response: Response<Int>) {
                         loginResult = response.body()
                         Log.d("api-loginResult", response.body().toString())
@@ -42,7 +39,8 @@ class LoginActivity : AppCompatActivity() {
                         if(loginResult == 1){
 
 //                        로그인한 유저정보 가져오기
-                            RetrofitBuilder.api.userInfo(id.text.toString()).enqueue(object : Callback<UserInfoData>{
+                            RetrofitBuilder.api.userInfo(id.text.toString()).enqueue(object :
+                                Callback<UserInfoData> {
                                 override fun onResponse(
                                     call: Call<UserInfoData>,
                                     response: Response<UserInfoData>

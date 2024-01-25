@@ -1,16 +1,13 @@
 package com.bitc.android_team3
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.bitc.android_team3.databinding.ActivityJoinBinding
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -239,7 +236,6 @@ class JoinActivity : AppCompatActivity() {
             )
 
         }
-
     }
 
     fun flagCheck() {

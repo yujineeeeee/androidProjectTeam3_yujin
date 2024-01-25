@@ -1,14 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Android_team3" parent="Theme.Material3.DayNight.NoActionBar">
-
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#F3D400</item>
+        <item name="fontFamily">@font/omyupretty</item>
+        <item name="android:windowSplashScreenBackground" tools:targetApi="S">#ffde59</item>
     </style>
 
-    <style name="Theme.Android_team3" parent="Base.Theme.Android_team3">
-        <item name="colorPrimary">#F3D400</item>
+    <style name="TabLayoutTextSize" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="TextLabel" parent="TextAppearance.Design.Hint">
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="Theme.Android_team3" parent="Base.Theme.Android_team3" />
 </resources>

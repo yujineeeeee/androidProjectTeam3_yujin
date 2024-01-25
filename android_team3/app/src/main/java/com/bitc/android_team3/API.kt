@@ -1,5 +1,8 @@
 package com.bitc.android_team3
 
+import com.bitc.android_team3.Data.BasketData
+import com.bitc.android_team3.Data.KeepData
+import com.bitc.android_team3.Data.Total
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,6 +12,8 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface API {
+
+    //    유저 관련
     @POST("/userLogin")
     fun userLogin(@Body user: UserLoginData): Call<Int>
 
@@ -16,7 +21,7 @@ interface API {
     fun userInfo(@Query("id") id: String): Call<UserInfoData>
 
     @GET("/userIdCheck")
-    fun userIdCheck(@Query("id") id:String): Call<Int>
+    fun userIdCheck(@Query("id") id: String): Call<Int>
 
     @POST("/userInsert")
     fun userInsert(@Body user: UserInfoData): Call<Int>
@@ -25,7 +30,24 @@ interface API {
     fun userUpdate(@Body user: UserInfoData): Call<Int>
 
     @GET("/userDelete")
-    fun userDelete(@Query("id") id:String): Call<Int>
+    fun userDelete(@Query("id") id: String): Call<Int>
+
+
+    @POST("/totalAmount")
+    fun totalAmount(@Body total: Total): Call<String>
+
+    @GET("/BasketAmountList")
+    fun BasketAmountList(@Query("pdId") pdId: String): Call<List<BasketData>>
+
+    @GET("/BasketView")
+    fun BasketView(
+        @Query("pdId") pdId: String?,
+        @Query("pdCreateDate") pdCreateDate: String
+    ): Call<List<BasketData>>
+
+    @POST("/keepInsert")
+    fun KeepInsert(@Body keepData: KeepData): Call<Int>
+
 }
 
 object RetrofitBuilder {
