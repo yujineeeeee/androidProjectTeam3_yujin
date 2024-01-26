@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitc.springapp.mapper.KeepMapper">
+
+    <insert id="keepInsert" parameterType="com.bitc.springapp.dto.KeepDto">
+        INSERT INTO keep (kp_cd, kp_name, kp_jeongGa, kp_discount, kp_price, kp_cnt, kp_create_date, kp_id, kp_image)
+        VALUES (#{kpCd}, #{kpName}, #{kpJeongGa}, #{kpDiscount}, #{kpPrice}, #{kpCnt}, NOW(), #{kpId}, #{kpImage})
+    </insert>
+
+    <select id="selectItemCheck" resultType="com.bitc.springapp.dto.DumDTO" parameterType="String">
+        select kp_cd
+        from keep
+        where kp_id = #{testId}
+        and DATE_FORMAT(kp_create_date, '%Y%m%d') = DATE_FORMAT(now(), '%Y%m%d')
+    </select>
+
+    <update id="keepUpdate" parameterType="com.bitc.springapp.dto.KeepDto">
+        update keep
+        set kp_cnt = kp_cnt + #{kpCnt}
+        where kp_cd = #{kpCd}
+        and kp_id = #{kpId}
+        and DATE_FORMAT(kp_create_date, '%Y%m%d') = DATE_FORMAT(now(), '%Y%m%d');
+    </update>
+
+    <select id="SelectKeepView" parameterType="String" resultType="com.bitc.springapp.dto.KeepDto">
+        SELECT kp_idx, kp_cd, kp_id, kp_name, kp_jeongGa, kp_discount, kp_price, kp_cnt, kp_create_date,kp_image
+        FROM keep
+        WHERE kp_id = #{kp_id}
+    </select>
+
+    <update id="keepCntUpdate" parameterType="com.bitc.springapp.dto.KeepDto">
+        UPDATE keep
+        SET kp_cnt = #{kpCnt}
+        WHERE kp_cd = #{kpCd}
+    </update>
+
+    <delete id="keepDelete" parameterType="com.bitc.springapp.dto.KeepDto">
+        DELETE FROM keep
+        WHERE kp_cd = #{kpCd}
+    </delete>
+
+    <insert id="basketInsert" parameterType="com.bitc.springapp.dto.KeepDto">
+        INSERT INTO basket(pd_cd,pd_name,pd_jeongGa ,pd_discount, pd_price,pd_cnt,pd_create_date, pd_id)
+        VALUES (#{kpCd},#{kpName},#{kpJeongGa}*#{kpCnt},#{kpDiscount},#{kpPrice}*#{kpCnt},#{kpCnt},NOW(),#{kpId})
+    </insert>
+
+</mapper>
