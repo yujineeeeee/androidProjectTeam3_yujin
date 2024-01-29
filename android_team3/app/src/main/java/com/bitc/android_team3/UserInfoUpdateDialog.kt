@@ -1,5 +1,7 @@
 package com.bitc.android_team3
 
+import MyPageFragment
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -9,7 +11,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class UserInfoUpdateDialog : DialogFragment() {
     private lateinit var binding: DialogUserInfoUpdateBinding
 
@@ -34,7 +36,6 @@ class UserInfoUpdateDialog : DialogFragment() {
     ): View? {
         binding = DialogUserInfoUpdateBinding.inflate(inflater, container, false)
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-
 //        다이얼로그 외의 영역 눌렀을때 취소되는거 방지
         isCancelable = false
 
@@ -116,7 +117,6 @@ class UserInfoUpdateDialog : DialogFragment() {
 
 
         binding.btnUpdateUserInfo.setOnClickListener {
-
             val updateUserName = binding.etUpdateUserName.text.toString()
             val updateUserEmail = binding.etUpdateUserEmail.text.toString()
             val updateUserPhone = binding.etUpdateUserPhone.text.toString()
@@ -148,6 +148,19 @@ class UserInfoUpdateDialog : DialogFragment() {
 
             Toast.makeText(context, "회원정보 수정 완료", Toast.LENGTH_SHORT).show()
             dismiss()
+
+//            val intent = Intent(context,CalendarActivity::class.java)
+//            startActivity(intent)
+
+//            val intent = (context as MyPageFragment).intent
+//            (context as MyPageFragment).finish() //현재 액티비티 종료 실시
+//            (context as MyPageFragment).startActivity(intent) //현재 액티비티 재실행 실시
+
+            val intent = Intent(requireActivity(), MainActivity::class.java)
+            requireActivity().finish()
+            requireActivity().startActivity(intent)
+
+
         }
 
         binding.btnUpdateCancel.setOnClickListener {

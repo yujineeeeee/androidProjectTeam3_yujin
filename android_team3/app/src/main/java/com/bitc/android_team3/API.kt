@@ -48,6 +48,18 @@ interface API {
     @POST("/keepInsert")
     fun KeepInsert(@Body keepData: KeepData): Call<Int>
 
+    @GET("/keepView")
+    fun keepView(@Query("kp_id") kp_id: String): Call<List<KeepData>>
+
+    @POST("/keepCntUpdate")
+    fun keepCntUpdate(@Query("kp_id") kp_id: String, @Query("kpCd") kpCd: String, @Query("kpCnt") kpCnt: Int): Call<List<KeepData>>
+
+    @POST("/keepDelete")
+    fun keepDelete(@Query("kp_id") kp_id: String, @Query("kpCd") kpCd: String): Call<List<KeepData>>
+
+    @POST("/basketInsert")
+    fun basketInsert(@Body keep: MutableList<KeepData>): Call<Int>
+
 }
 
 object RetrofitBuilder {

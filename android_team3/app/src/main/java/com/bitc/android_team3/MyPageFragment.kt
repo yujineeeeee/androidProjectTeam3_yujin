@@ -1,19 +1,24 @@
-package com.bitc.android_team3
-
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitc.android_team3.Adapter.BasketAdapter
 import com.bitc.android_team3.Adapter.CalendarAdapter
 import com.bitc.android_team3.Data.BasketData
-import com.bitc.android_team3.databinding.ActivityCalendarBinding
+import com.bitc.android_team3.LoginActivity
+import com.bitc.android_team3.MainActivity
+import com.bitc.android_team3.R
+import com.bitc.android_team3.RetrofitBuilder
+import com.bitc.android_team3.UserInfoUpdateDialog
+import com.bitc.android_team3.databinding.FragmentMyPageBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
@@ -24,21 +29,27 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-class CalendarActivity : AppCompatActivity() {
+class MyPageFragment : Fragment() {
 
-    lateinit var binding: ActivityCalendarBinding
-    // 년월 변수
+    private var _binding: FragmentMyPageBinding? = null
+    private val binding get() = _binding!!
+
+//    년월 변수
     lateinit var selectedDate: LocalDate
-
     var id: String? = null
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentMyPageBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCalendarBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val sharedPref = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val sharedPref = requireContext().getSharedPreferences("user_info", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
         id = sharedPref.getString("id", "")
@@ -47,14 +58,12 @@ class CalendarActivity : AppCompatActivity() {
         var phone = sharedPref.getString("phone", "")
         var createDate = sharedPref.getString("createDate", "")
 
-
 //        로그인 하지 않았을 때
-        if(id == null || id == ""){
-            val intent = Intent(this, LoginActivity::class.java)
+        if (id == null || id == "") {
+            val intent = Intent(requireContext(), LoginActivity::class.java)
             startActivity(intent)
-        }
 //        로그인 했을 때
-        else {
+        } else {
             binding.tvMyPageId.text = "${name} 님"
             binding.tvMyPageCreateDate.text = "가입일 : $createDate"
 
@@ -63,16 +72,15 @@ class CalendarActivity : AppCompatActivity() {
                 editor.clear()
                 editor.commit()
 
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
             }
         }
 
 //        회원정보 수정
         binding.llUserUpdate.setOnClickListener {
-            UserInfoUpdateDialog().show(supportFragmentManager, "dialog")
+            UserInfoUpdateDialog().show(requireFragmentManager(), "dialog")
         }
-
 
         // 현재 날짜
         selectedDate = LocalDate.now()
@@ -93,6 +101,7 @@ class CalendarActivity : AppCompatActivity() {
         }
     }
 
+
     // 날짜 화면에 보여주기
     fun setMonthView() {
         binding.monthYearText.text = monthYearFromDate(selectedDate)
@@ -100,14 +109,14 @@ class CalendarActivity : AppCompatActivity() {
         val dayList = dayInMonthArray(selectedDate)
 
         val calendarAdapter = CalendarAdapter(dayList, id)
-        var manager: RecyclerView.LayoutManager = GridLayoutManager(applicationContext, 7)
+        var manager: RecyclerView.LayoutManager = GridLayoutManager(requireContext(), 7)
         binding.recyclerView.layoutManager = manager
         binding.recyclerView.adapter = calendarAdapter
-
 
         calendarAdapter.itemClickListener = object : CalendarAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val item = dayList[position]
+
                 var BYear = item?.year
                 var BMonth = item?.monthValue
                 var BDay = item?.dayOfMonth
@@ -130,7 +139,7 @@ class CalendarActivity : AppCompatActivity() {
                     }
                 }
 
-                val sharedPref = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+                val sharedPref = requireContext().getSharedPreferences("user_info", Context.MODE_PRIVATE)
 
                 var id = sharedPref.getString("id", "")
 
@@ -150,7 +159,7 @@ class CalendarActivity : AppCompatActivity() {
 
                                 // 가져온 상품 정보를 처리
                                 val sharedPref =
-                                    getSharedPreferences("basket_list", Context.MODE_PRIVATE)
+                                    requireContext().getSharedPreferences("basket_list", Context.MODE_PRIVATE)
                                 val editor = sharedPref.edit()
 
                                 val gson = Gson()
@@ -168,11 +177,14 @@ class CalendarActivity : AppCompatActivity() {
                                 }
 
                                 if (items.size != 0) {
+                                    Log.d("CalendarAdapter", "Item clicked at position: $position")
+
+                                    Toast.makeText(requireContext(),"리스트 불러오기 완료 ▼",Toast.LENGTH_SHORT).show()
                                     binding.BasketList.visibility = View.VISIBLE
 
                                     var sumTotal = 0
                                     for (i in 0..items.size - 1) {
-                                        sumTotal += items[i].pdPrice!! * items[i].pdCnt!!
+                                        sumTotal += items[i].pdPrice!!
                                     }
 
                                     val decimal = DecimalFormat("#,###")
@@ -183,7 +195,7 @@ class CalendarActivity : AppCompatActivity() {
                                     val basketAdapter = BasketAdapter(items)
 
                                     binding.recyclerText.itemAnimator = null
-                                    binding.recyclerText.layoutManager = LinearLayoutManager(this@CalendarActivity)
+                                    binding.recyclerText.layoutManager = LinearLayoutManager(requireContext())
                                     binding.recyclerText.adapter = basketAdapter
                                 } else {
                                     binding.BasketList.visibility = View.GONE
@@ -203,19 +215,12 @@ class CalendarActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-
-
             }
         }
-
-
     }
 
-    // 날짜 타입 설정
     fun monthYearFromDate(data: LocalDate): String {
         var formatter = DateTimeFormatter.ofPattern("MM월 yyyy")
-
-        //받아온 날짜를 해당 포맷으로 변경
         return data.format(formatter)
     }
 
@@ -235,6 +240,11 @@ class CalendarActivity : AppCompatActivity() {
         }
 
         return dayList
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

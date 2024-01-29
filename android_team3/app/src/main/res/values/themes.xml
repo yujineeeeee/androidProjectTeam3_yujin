@@ -6,6 +6,13 @@
         <item name="colorPrimary">#F3D400</item>
         <item name="fontFamily">@font/omyupretty</item>
         <item name="android:windowSplashScreenBackground" tools:targetApi="S">#ffde59</item>
+        <!-- 배경 dim 설정 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 0.0 (투명) ~ 1.0 (검정색) 값을 가집니다 -->
+        <item name="android:backgroundDimAmount">0.5</item>
+<!--        // 상태 바 변경-->
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="TabLayoutTextSize" parent="TextAppearance.Design.Tab">
@@ -17,4 +24,5 @@
     </style>
 
     <style name="Theme.Android_team3" parent="Base.Theme.Android_team3" />
+
 </resources>

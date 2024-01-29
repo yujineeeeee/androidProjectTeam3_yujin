@@ -11,7 +11,7 @@
     </select>
 
     <select id="selectTotalAmount" parameterType="Map" resultType="String">
-        select sum(pd_price * pd_cnt) total
+        select sum(pd_price) total
         from basket
         where DATE_FORMAT(pd_create_date, '%Y%m%d') = DATE_FORMAT(#{pdCreateDate}, '%Y%m%d')
         and pd_id = #{pdId}

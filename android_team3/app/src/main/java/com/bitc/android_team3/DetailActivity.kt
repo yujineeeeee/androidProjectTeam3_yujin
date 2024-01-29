@@ -1,9 +1,15 @@
 package com.bitc.android_team3
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitc.android_team3.Adapter.CategoryAdapter
@@ -27,6 +33,36 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 툴바 설정
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)   //왼쪽 버튼 사용설정(기본은 뒤로가기)
+
+        binding.headerLogin.setOnClickListener {
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.headerKeep.setOnClickListener {
+            if (isUserLoggedIn()) {
+                val intent = Intent(this,KeepActivity::class.java)
+                startActivity(intent)
+            }
+            else {
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+//        로그인된 상태에서는 로그인 버튼 사라짐
+        if (isUserLoggedIn()) {
+            binding.headerLogin.visibility = View.GONE
+        }
+        else {
+            binding.headerLogin.visibility = View.VISIBLE
+        }
+
         var value1 = intent.getStringExtra("name")
         binding.detailText.text = value1.toString()
         val updatedUrl = "$BASE_URL&apiCode=ProductSearch&keyword=$value1"
@@ -43,11 +79,62 @@ class DetailActivity : AppCompatActivity() {
         binding.cateRecyclerView.adapter = categoryAdapter
 
 
-        binding.categoPre.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.categoPre.setOnClickListener {
+//            val intent = Intent(this,MainActivity::class.java)
+//            startActivity(intent)
+//        }
 
+    }
+
+    //    툴바
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.top_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+
+//            R.id.logoFragment -> {
+//                // 툴바의 아이콘이 선택되었을 때 수행할 동작 정의
+//                val intent = Intent(applicationContext, MainActivity::class.java)
+//                startActivity(intent)
+//                return true
+//            }
+//
+//            R.id.LoginBtn -> {
+//                // 툴바의 아이콘이 선택되었을 때 수행할 동작 정의
+//                startActivity(Intent(applicationContext, LoginActivity::class.java))
+//                return true
+//            }
+//
+//            R.id.basketFragment -> {
+//                // 장바구니 클릭 시 로그인 상태 확인
+//                if (isUserLoggedIn()) {
+//                    startActivity(Intent(applicationContext, KeepActivity::class.java))
+//                } else {
+//                    // 로그인 상태가 아니면 로그인 화면으로 이동
+//                    startActivity(Intent(applicationContext, LoginActivity::class.java))
+//                }
+//                return true
+//            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun isUserLoggedIn(): Boolean {
+        val sharedPref = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val id = sharedPref.getString("id", "")
+
+        // id가 비어있지 않으면 로그인 상태로 판단
+        return id?.isNotEmpty() == true
     }
 }
 

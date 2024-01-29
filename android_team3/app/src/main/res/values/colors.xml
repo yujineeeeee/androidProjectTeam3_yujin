@@ -11,4 +11,6 @@
     <color name="unselect">#9C9C9C</color>
     <color name="btn">#F3B95F</color>
     <color name="holo_blue_dark">#FF0099CC</color>
+    <color name="bottom_tap">#FFFFFF</color>
+    <color name="top_tap">#EFEFEF</color>
 </resources>

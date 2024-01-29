@@ -31,6 +31,7 @@
                 android:drawableStart="@drawable/drawable_resize_id"
                 android:drawablePadding="10dp"
                 android:gravity="fill"
+                android:singleLine="true"
                 android:hint="ID"
                 android:paddingLeft="15dp"/>
 
@@ -38,25 +39,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/etPw"
+                android:singleLine="true"
                 android:drawableStart="@drawable/drawable_resize_pw"
                 android:drawablePadding="10dp"
                 android:gravity="fill"
                 android:hint="Password"
                 android:paddingLeft="15dp"
                 android:inputType="textPassword"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvJoin"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="10dp"
-                android:gravity="end"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="아직 회원이 아니신가요?"
-                android:textSize="10sp"
-                android:textColor="#f26422" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,6 +65,19 @@
                 android:layout_marginRight="1dp"
                 android:layout_marginBottom="1dp"
                 android:text="Login"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvJoin"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="10dp"
+                android:gravity="end"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="아직 회원이 아니신가요?"
+                android:textSize="10sp"
+                android:textColor="#f26422" />
         </LinearLayout>
     </LinearLayout>
 
